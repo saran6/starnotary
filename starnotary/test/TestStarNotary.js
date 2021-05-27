@@ -81,7 +81,7 @@ it('can add the star name and star symbol properly', async() =>
 {
 	instance = await StarNotary.deployed();
 	let user1 = accounts[0];
-	let userId = 55;
+	let starId = 55;
 	await instance.createStar('test55', starId, {from: user1});
 	let tokenName = await instance.TOKEN_NAME.call();
 	let tokenSymbol = await instance.TOKEN_SYMBOL.call();
