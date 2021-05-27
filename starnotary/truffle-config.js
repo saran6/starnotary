@@ -60,7 +60,7 @@ module.exports = {
    rinkeby:
    {
 		provider: () => new HDWalletProvider(metamaskPhrases, "https://rinkeby.infura.io/v3/1b8ba85350184284bac5ef2cfa395b24"),
-		network_id: "*",
+		network_id: "4", // works with * too
 		gas: 4500000,
 		gasPrice: 10000000000,
    },

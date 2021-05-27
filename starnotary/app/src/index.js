@@ -45,7 +45,7 @@ const App = {
 	  const { lookUptokenIdToStarInfo } = this.meta.methods;
       const starId = document.getElementById("lookid").value;
 	  let starName = await lookUptokenIdToStarInfo(starId).call();
-	  const lookup = document.getElementById("lookup");
+	  const lookup = document.getElementById("lookupP");
 	  lookup.innerHTML = starName;
   }
 };

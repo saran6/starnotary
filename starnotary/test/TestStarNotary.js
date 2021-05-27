@@ -80,6 +80,9 @@ it('lets user2 buy a star and decreases its balance in ether', async() => {
 it('can add the star name and star symbol properly', async() => 
 {
 	instance = await StarNotary.deployed();
+	let user1 = accounts[0];
+	let userId = 55;
+	await instance.createStar('test55', starId, {from: user1});
 	let tokenName = await instance.TOKEN_NAME.call();
 	let tokenSymbol = await instance.TOKEN_SYMBOL.call();
 	assert.equal(tokenName, "m star token");
@@ -93,9 +96,16 @@ it('lets 2 users exchange stars', async() =>
 	let user2 = accounts[1];
 	let starId1 = 35;
 	let starId2 = 36;
+	// creating star test1 from user1
 	await instance.createStar('test1', starId1, {from: user1});
+
+	// creating star test 2 from user 2
 	await instance.createStar('test2', starId2, {from: user2});
+
+	// exchanging the stars
 	await instance.exchangeStars(starId1, starId2);
+
+	// verify ownership has been changed and exchange was successful
 	assert.equal(await instance.ownerOf(starId1), user2);
 	assert.equal(await instance.ownerOf(starId2), user1);
 });
@@ -107,12 +117,17 @@ it('lets a user transfer a star', async() =>
 	let user2 = accounts[1];
 	let starId = 7;	
 	let starName = 'test3';
+
+	// check if star exists
+	let existingStarName = await instance.lookUptokenIdToStarInfo(starId);
+	assert(existingStarName !== "") // star doesn't exist
+
+	// creating star
 	await instance.createStar(starName, starId, {from: user1});
-	let createdStarName = await instance.lookUptokenIdToStarInfo(starId);
-	assert.equal(starName, createdStarName);
 
 	// do the transfer
 	await instance.transferFrom(user1, user2, starId);
+	// verifying ownership by previous transfer
 	assert.equal(await instance.ownerOf(starId),  user2);
 });
 
@@ -124,4 +139,5 @@ it('lookUptokenIdToStarInfo test', async() =>
 	let name = 'test4'
 	await instance.createStar(name, starId, {from: user1});
 	assert.equal(name, await instance.lookUptokenIdToStarInfo(starId));
-});
+});  
+
